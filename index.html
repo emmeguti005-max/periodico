@@ -317,7 +317,7 @@ main { max-width: 1280px; margin: 0 auto; padding: 40px 28px 80px; }
 /* ── GRID ── */
 .news-grid {
   display: grid;
-  grid-template-columns: 1.65fr 1fr 1fr;
+ grid-template-columns: 1.65fr 1fr 1fr;
   grid-template-rows: auto auto;
   gap: 1px;
   background: var(--border-strong);
@@ -333,6 +333,8 @@ main { max-width: 1280px; margin: 0 auto; padding: 40px 28px 80px; }
 }
 
 /* ── CARD BASE ── */
+.news-card.lead .card-image { height: 310px; }
+
 .news-card {
   background: var(--cream);
   cursor: pointer;
@@ -558,28 +560,6 @@ footer {
 
 /* ── SCROLLBAR (handled above) ── */
 
-/* ── RESPONSIVE ── */
-@media(max-width:1024px){
-  .news-grid{grid-template-columns:1fr 1fr;grid-template-rows:auto;}
-  .news-grid-2{grid-template-columns:1fr;}
-  .news-card.lead{grid-column:1/-1;grid-row:auto;}
-  .news-card.lead .card-image{height:240px;}
-  .horoscope-grid{grid-template-columns:repeat(3,1fr);}
-}
-@media(max-width:700px){
-  .news-grid,.news-grid-2{grid-template-columns:1fr;}
-  .news-card.lead{grid-column:1;grid-row:auto;}
-  main{padding:20px 14px 60px;}
-  .masthead{padding:18px 16px 14px;}
-  .header-top{padding:7px 14px;font-size:7px;}
-  nav ul{padding:0 6px;}
-  nav li a{padding:9px 10px;font-size:7px;}
-  .horoscope-grid{grid-template-columns:repeat(2,1fr);}
-}
-@media(max-width:400px){
-  .horoscope-grid{grid-template-columns:1fr;}
-}
-
 /* SVG animations for remaining cards */
 @keyframes rotate-slow{to{transform:rotate(360deg);transform-origin:center;}}
 @keyframes pulse-glow{0%,100%{opacity:.6}50%{opacity:1;}}
@@ -589,81 +569,108 @@ footer {
 @keyframes ghost-fade{0%,100%{opacity:.3}50%{opacity:.8}}
 @keyframes chip-pulse{0%,100%{fill:rgba(0,150,255,.1)}50%{fill:rgba(0,150,255,.4)}}
 
-/* =========================
-   RESPONSIVE PARA CELULAR
-   ========================= */
+/* ── RESPONSIVE ── */
 
-@media (max-width: 768px){
-
-  main{
-    padding:20px 12px;
-  }
-
-  .news-grid,
-  .news-grid-2{
-    grid-template-columns:1fr;
-  }
-
-  .news-card.lead{
-    grid-column:1;
-  }
-
-  .news-card.lead .card-image{
-    height:200px;
-  }
-
-  .news-card.secondary .card-image{
-    height:140px;
-  }
-
-  .card-content{
-    padding:14px;
-  }
-
-  .card-headline{
-    font-size:18px;
-  }
-
-  .card-body{
-    font-size:13px;
-    line-height:1.6;
-  }
-
-  .masthead h1{
-    font-size:36px;
-  }
-
-  .header-top{
-    flex-direction:column;
-    text-align:center;
-    gap:4px;
-  }
-
-  nav ul{
-    overflow-x:auto;
-    justify-content:flex-start;
-  }
-
-  nav li a{
-    font-size:9px;
-    padding:10px 14px;
-  }
+/* TABLET */
+@media (max-width: 1024px) {
+  .news-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+  .news-grid-2 { grid-template-columns: 1fr; }
+  .news-card.lead { grid-column: 1 / -1; grid-row: auto; }
+  .news-card.lead .card-image { height: 260px; }
+  .horoscope-grid { grid-template-columns: repeat(3, 1fr); }
 }
 
-/* celulares pequeños */
-@media (max-width:480px){
+/* MOBILE — todo en una sola columna, sin desborde */
+@media (max-width: 640px) {
+  body { overflow-x: hidden; }
 
-  .card-headline{
-    font-size:16px;
+  /* Botón de traducción: se mueve abajo del ticker para no tapar nada */
+  .translate-bar {
+    position: static;
+    display: flex;
+    justify-content: flex-end;
+    padding: 6px 12px;
+    background: rgba(10,12,15,0.96);
   }
+  #translateBtn { font-size: 10px; padding: 7px 14px; }
 
-  .section-title{
-    font-size:18px;
-  }
+  /* Ticker */
+  .ticker-label { font-size: 9px; padding: 0 10px; }
+  .ticker-item { font-size: 10px; padding: 0 16px; }
 
-  .section-intro{
-    font-size:13px;
+  /* Header */
+  .header-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    padding: 8px 14px;
+    font-size: 9px;
   }
+  .masthead { padding: 16px 14px 12px; }
+  .masthead-eyebrow { font-size: 9px; letter-spacing: .18em; }
+  .masthead h1 { font-size: clamp(32px, 10vw, 52px); }
+  .masthead-tagline { font-size: 13px; }
+  .mrule-diamond { font-size: 8px; letter-spacing: .1em; }
+
+  /* Nav — scroll horizontal sin romper layout */
+  nav ul {
+    justify-content: flex-start;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: 0 4px;
+  }
+  nav ul::-webkit-scrollbar { display: none; }
+  nav li a { font-size: 9px; padding: 10px 12px; letter-spacing: .12em; }
+
+  /* Main */
+  main { padding: 18px 12px 60px; }
+  .news-section { margin-bottom: 48px; }
+
+  /* Grids a 1 columna */
+  .news-grid,
+  .news-grid-2 { grid-template-columns: 1fr !important; }
+  .news-card.lead { grid-column: 1; grid-row: auto; }
+
+  /* Imágenes */
+  .news-card.lead .card-image { height: auto; aspect-ratio: 16/9; }
+  .news-card.secondary .card-image { height: auto; aspect-ratio: 16/9; }
+
+  /* Contenido de cards */
+  .card-content { padding: 14px; }
+  .news-card.secondary .card-content { padding: 12px; }
+  .card-headline { font-size: clamp(15px, 4.5vw, 20px); line-height: 1.25; }
+  .news-card.secondary .card-headline { font-size: clamp(14px, 4vw, 18px); }
+  .card-body { font-size: 13.5px; line-height: 1.7; }
+  .news-card.secondary .card-body { font-size: 13px; }
+
+  /* Section headers */
+  .section-header { flex-wrap: wrap; gap: 6px; }
+  .section-tag { font-size: 9px; padding: 4px 10px; }
+  .section-intro { font-size: 13px; }
+
+  /* Horóscopo */
+  .horoscope-grid { grid-template-columns: repeat(2, 1fr); }
+  .horoscope-title { font-size: clamp(22px, 6vw, 36px); }
+  .zodiac-card { padding: 14px 12px; }
+  .zodiac-symbol { font-size: 24px; }
+  .zodiac-name { font-size: 13px; }
+  .zodiac-text { font-size: 12px; }
+
+  /* Notificación — ocupa menos espacio */
+  #notif { max-width: calc(100vw - 24px); right: 12px; bottom: 12px; font-size: 10px; }
+
+  /* Footer */
+  footer { padding: 22px 16px 16px; }
+  .footer-stats { gap: 20px; }
+  .fstat-num { font-size: 20px; }
+}
+
+/* MÓVIL MUY PEQUEÑO */
+@media (max-width: 380px) {
+  .horoscope-grid { grid-template-columns: 1fr; }
+  .masthead h1 { font-size: 30px; }
+  nav li a { font-size: 8px; padding: 9px 10px; }
 }
 </style>
 
